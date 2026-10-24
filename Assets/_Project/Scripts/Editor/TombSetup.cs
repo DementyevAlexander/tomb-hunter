@@ -76,5 +76,21 @@ namespace TombHunter.EditorTools
             var report = BuildPipeline.BuildPlayer(opts);
             Debug.Log("Tomb: сборка — " + report.summary.result);
         }
+
+        // Точка входа для командной строки: -executeMethod TombHunter.EditorTools.TombSetup.BuildWindows
+        [MenuItem("Tomb/Build/Windows")]
+        public static void BuildWindows()
+        {
+            var opts = new BuildPlayerOptions
+            {
+                scenes = new[] { ScenePath },
+                locationPathName = "Builds/Windows/TombHunter.exe",
+                target = BuildTarget.StandaloneWindows64,
+            };
+            var report = BuildPipeline.BuildPlayer(opts);
+            Debug.Log("Tomb: сборка — " + report.summary.result);
+            if (Application.isBatchMode && report.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
+                EditorApplication.Exit(1);
+        }
     }
 }
